@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 import 'package:mvvm/view/resources/components/round_button.dart';
 import 'package:mvvm/view_model/login/login_controller.dart';
 
 import '../utils/utils.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends HookWidget {
   LoginPage({super.key});
   final ValueNotifier<bool> obscurePasscode = ValueNotifier<bool>(true);
-  final TextEditingController email = TextEditingController();
-  final TextEditingController passcode = TextEditingController();
-  final loginController = Get.put(LoginController());
+
   @override
   Widget build(BuildContext context) {
+    final TextEditingController email = useTextEditingController();
+    final TextEditingController passcode = useTextEditingController();
+    final loginController = Get.put(LoginController());
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -37,10 +40,6 @@ class LoginPage extends StatelessWidget {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: Utils.giveBorder(Colors.grey, width: 2.0),
-                        borderRadius: Utils.giveRadius(radius: 10),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderSide: Utils.giveBorder(Colors.red, width: 2.0),
                         borderRadius: Utils.giveRadius(radius: 10),
                       )),
                 ),
@@ -71,22 +70,17 @@ class LoginPage extends StatelessWidget {
                               borderSide:
                                   Utils.giveBorder(Colors.blue, width: 2.0),
                               borderRadius: Utils.giveRadius(radius: 10),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide:
-                                  Utils.giveBorder(Colors.red, width: 2.0),
-                              borderRadius: Utils.giveRadius(radius: 10),
                             )),
                       );
                     })),
                 const SizedBox(height: 30),
-                RoundButton(
-                    loading: false,
+                Obx(() => RoundButton(
+                    loading: loginController.loginStatus,
                     onPressFunc: () {
                       loginController.pressedLogin(context,
                           email.text.toString(), passcode.text.toString());
                     },
-                    name: "Login"),
+                    name: "Login")),
                 const SizedBox(height: 200),
               ],
             ),
