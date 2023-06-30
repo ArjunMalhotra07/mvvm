@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:mvvm/view/pages/home.dart';
 import 'package:mvvm/view/utils/routes/routes.dart';
 import 'package:mvvm/view/utils/routes/routes_name.dart';
@@ -13,12 +14,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      debugShowCheckedModeBanner: false,
       initialRoute: RoutesName.login,
       onGenerateRoute : Routes.generateRoute,
       home: const HomePage(),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:mvvm/view/resources/components/round_button.dart';
+import 'package:mvvm/view_model/login/login_controller.dart';
 
 import '../utils/utils.dart';
 
@@ -7,6 +10,7 @@ class LoginPage extends StatelessWidget {
   final ValueNotifier<bool> obscurePasscode = ValueNotifier<bool>(true);
   final TextEditingController email = TextEditingController();
   final TextEditingController passcode = TextEditingController();
+  final loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +79,14 @@ class LoginPage extends StatelessWidget {
                             )),
                       );
                     })),
+                const SizedBox(height: 30),
+                RoundButton(
+                    loading: false,
+                    onPressFunc: () {
+                      loginController.pressedLogin(context,
+                          email.text.toString(), passcode.text.toString());
+                    },
+                    name: "Login"),
                 const SizedBox(height: 200),
               ],
             ),
