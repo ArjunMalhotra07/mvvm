@@ -9,7 +9,7 @@ class Routes {
       case RoutesName.home:
         return MaterialPageRoute(builder: (context) => const HomePage());
       case RoutesName.login:
-        return MaterialPageRoute(builder: (context) => const LoginPage());
+        return MaterialPageRoute(builder: (context) => LoginPage());
       default:
         return MaterialPageRoute(builder: (_) => const NoSuchPageScreen());
     }
