@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:mvvm/networking/data/app_exceptions.dart';
 import 'package:mvvm/networking/data/network/base_api_service.dart';
@@ -13,7 +14,7 @@ class NetworkApiService extends BaseApiService {
           await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
       responseJson = returnResponse(response);
       return responseJson;
-    } catch (e) {
+    } on SocketException catch (_){
       throw FetchDataException(message: 'No Internet Exception');
     }
   }
@@ -28,7 +29,7 @@ class NetworkApiService extends BaseApiService {
           .timeout(const Duration(seconds: 7));
       responseJson = returnResponse(response);
       return responseJson;
-    } catch (e) {
+    } on SocketException catch (_) {
       throw FetchDataException(message: 'No Internet Exception');
     }
   }
