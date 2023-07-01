@@ -13,10 +13,10 @@ class NetworkApiService extends BaseApiService {
       final response =
           await http.get(Uri.parse(url)).timeout(const Duration(seconds: 10));
       responseJson = returnResponse(response);
-    } on SocketException {
+      return responseJson;
+    } catch (e) {
       throw FetchDataException(message: 'No Internet Exception');
     }
-    return responseJson;
   }
 
   @override
@@ -26,12 +26,12 @@ class NetworkApiService extends BaseApiService {
       Map<String, String> headers = {'Content-Type': 'application/json'};
       dynamic response = await http
           .post(Uri.parse(url), body: data, headers: headers)
-          .timeout(const Duration(seconds: 16));
+          .timeout(const Duration(seconds: 7));
       responseJson = returnResponse(response);
-    } on SocketException {
+      return responseJson;
+    } catch (e) {
       throw FetchDataException(message: 'No Internet Exception');
     }
-    return responseJson;
   }
 
   dynamic returnResponse(dynamic response) {

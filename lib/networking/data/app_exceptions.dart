@@ -9,7 +9,8 @@ class AppException implements Exception {
 }
 
 class FetchDataException extends AppException {
-  FetchDataException({String? message}) : super(message: "Error during Comms");
+  FetchDataException({String? message})
+      : super(message: "Error during Comms", prefix: message);
 }
 
 class BadRequestException extends AppException {
