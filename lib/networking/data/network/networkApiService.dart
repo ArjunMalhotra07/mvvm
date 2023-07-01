@@ -23,9 +23,10 @@ class NetworkApiService extends BaseApiService {
   Future getPostAPIResponse(String url, dynamic data) async {
     dynamic responseJson;
     try {
-      final response = await http
-          .post(Uri.parse(url), body: data)
-          .timeout(const Duration(seconds: 10));
+      Map<String, String> headers = {'Content-Type': 'application/json'};
+      dynamic response = await http
+          .post(Uri.parse(url), body: data, headers: headers)
+          .timeout(const Duration(seconds: 16));
       responseJson = returnResponse(response);
     } on SocketException {
       throw FetchDataException(message: 'No Internet Exception');
@@ -33,16 +34,17 @@ class NetworkApiService extends BaseApiService {
     return responseJson;
   }
 
-  dynamic returnResponse(http.Response response) {
+  dynamic returnResponse(dynamic response) {
     switch (response.statusCode) {
       case 200:
       case 201:
         dynamic jsonResponse = jsonDecode(response.body);
         return jsonResponse;
       case 400:
-        throw BadRequestException(message: response.body.toString());
+        dynamic jsonResponse = jsonDecode(response.body)['error'].toString();
+        throw BadRequestException(message: jsonResponse);
       case 404:
-        throw BadRequestException(message: response.body.toString());
+        throw PageNotFoundException(message: response.body);
       default:
         throw FetchDataException(
             message:

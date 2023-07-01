@@ -4,7 +4,7 @@ class AppException implements Exception {
   AppException({this.message, this.prefix});
   @override
   String toString() {
-    return "$prefix$message";
+    return "$message : $prefix";
   }
 }
 
@@ -13,7 +13,12 @@ class FetchDataException extends AppException {
 }
 
 class BadRequestException extends AppException {
-  BadRequestException({String? message}) : super(message: "Invalid Request");
+  BadRequestException({String? message})
+      : super(message: "Invalid Request", prefix: message);
+}
+
+class PageNotFoundException extends AppException {
+  PageNotFoundException({String? message}) : super(message: "Page Not found");
 }
 
 class InvalidInputException extends AppException {
