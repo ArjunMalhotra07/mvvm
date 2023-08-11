@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:mvvm/networking/data/app_exceptions.dart';
+import 'package:mvvm/networking/app_exceptions.dart';
 import 'package:mvvm/networking/data/network/base_api_service.dart';
 import 'package:http/http.dart' as http;
 
